@@ -16,11 +16,11 @@ class HistoryService {
   // TODO: Define a read method that reads from the searchHistory.json file: Done
   private async read() {
     return (
-      await fs.readFile("db/db.json"),
+      await fs.readFile("db/db.json",
       {
         flag: "a+",
         encoding: "utf8",
-      }
+      })
     );
   }
   // TODO: Define a write method that writes the updated cities array to the searchHistory.json file: Done
@@ -33,7 +33,7 @@ class HistoryService {
     let parsedCities: City[];
 
     try {
-      parsedCities = [].concat(JSON.parse(cities));
+      parsedCities = JSON.parse(cities) || [];
     } catch (err) {
       parsedCities = [];
     }
@@ -46,31 +46,25 @@ class HistoryService {
     if (!city) {
       throw new Error("city cannot be blank");
     }
+
+    const newCity: City = { name: city, id: uuidv4() };
+
+    return await this.getCities()
+      .then((cities) => {
+        if (cities.find((existingCity) => existingCity.name === city)) {
+          return cities;
+        }
+        return [...cities, newCity];
+      })
+      .then((updatedCity) => this.write(updatedCity))
+      .then(() => newCity);
   }
+
   // * BONUS TODO: Define a removeCity method that removes a city from the searchHistory.json file
   async removeCity(id: string) {
-    if (id) {
-      let parsedCities: City[] = [];
-
-      try {
-        parsedCities = await this.getCities();
-
-        const cityIndex = parsedCities.findIndex((city) => city.id == id);
-
-        if (cityIndex !== -1) {
-          parsedCities.splice(cityIndex, 1);
-
-          console.log(`City with id ${id} has been removed`);
-          await this.write(parsedCities);
-        } else {
-          console.log(`City with id ${id} not found.`);
-        }
-      } catch (err) {
-        console.error(`Error while removing the city:`, err);
-      }
-    } else {
-      console.error("No id provided.");
-    }
+    return await this.getCities()
+    .then((cities) => cities.filter((city) => city.id !== id))
+    .then ((filteredCities) => this.write(filteredCities));
   }
 }
 
