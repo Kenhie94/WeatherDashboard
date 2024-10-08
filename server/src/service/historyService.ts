@@ -15,33 +15,31 @@ class City {
 class HistoryService {
   // TODO: Define a read method that reads from the searchHistory.json file: Done
   private async read() {
-    return (
-      await fs.readFile("db/db.json",
-      {
-        flag: "a+",
-        encoding: "utf8",
-      })
-    );
+    return await fs.readFile("db/db.json", {
+      flag: "a+",
+      encoding: "utf8",
+    });
   }
   // TODO: Define a write method that writes the updated cities array to the searchHistory.json file: Done
   private async write(cities: City[]) {
     return await fs.writeFile("db/db.json", JSON.stringify(cities, null, "\t"));
   }
+
   // TODO: Define a getCities method that reads the cities from the searchHistory.json file and returns them as an array of City objects
   async getCities() {
-    const cities = await this.read();
-    let parsedCities: City[];
+    return await this.read().then((cities) => {
+      let parsedCities: City[];
+      try {
+        parsedCities = [].concat(JSON.parse(cities));
+      } catch (err) {
+        parsedCities = [];
+      }
 
-    try {
-      parsedCities = JSON.parse(cities) || [];
-    } catch (err) {
-      parsedCities = [];
-    }
-
-    return parsedCities;
+      return parsedCities;
+    });
   }
 
-  // TODO Define an addCity method that adds a city to the searchHistory.json file: Done
+  // TODO Define an addCity method that adds a city to the db.json file: Done
   async addCity(city: string) {
     if (!city) {
       throw new Error("city cannot be blank");
@@ -60,11 +58,11 @@ class HistoryService {
       .then(() => newCity);
   }
 
-  // * BONUS TODO: Define a removeCity method that removes a city from the searchHistory.json file
+  // * BONUS TODO: Define a removeCity method that removes a city from the db.json file
   async removeCity(id: string) {
     return await this.getCities()
-    .then((cities) => cities.filter((city) => city.id !== id))
-    .then ((filteredCities) => this.write(filteredCities));
+      .then((cities) => cities.filter((city) => city.id !== id))
+      .then((filteredCities) => this.write(filteredCities));
   }
 }
 

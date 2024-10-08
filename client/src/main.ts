@@ -111,7 +111,7 @@ const renderForecast = (forecast: any): void => {
     forecastContainer.innerHTML = '';
     forecastContainer.append(headingCol);
   }
-
+  
   for (let i = 0; i < forecast.length; i++) {
     renderForecastCard(forecast[i]);
   }
