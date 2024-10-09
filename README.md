@@ -17,12 +17,28 @@ An app that will do an API call to OpenWeatherMap and fetch the weather in an ea
 - [License](#license)
 
 ## Installation
+1. Git clone the repo
 
-Git clone the repo, Install all the necessary node packages npm i, run the application, "npm start"
-
+2. Install all the necessary node packages
+    ```
+    npm i
+    ```
+3. Build the application
+    ```
+    "npm run build" 
+    ```
+4. Start the application
+    ```
+    "npm run start:dev"
+    ```
 ## Usage
+Enter a city within the search engine.
 
-Enter a city within the search engine and press enter. It will display the current day's weather and also display a 5-day forecast.
+![Search for a City](./Assets/Search_for_a_City.jpg)
+
+ It will display the current day's weather and also display a 5-day forecast.
+
+ ![Weather Forecast](./Assets/Weather_Forecast.jpg)
 
 ## Credits
 
@@ -32,14 +48,16 @@ Kenhie
 
 Please continue this project and develop more functionality option or interactions
 
-## Tests
-
 ## Questions
 
 If you have any questions, you can reach me at:
 
 - GitHub: [kenhie94](https://github.com/kenhie94)
 - Email: kenhiebusiness@gmail.com
+
+## Acknowledgements
+
+- [README Generator](https://github.com/Kenhie94/ReadMeGenerator)
 
 ## License
 
