@@ -36,6 +36,7 @@ class WeatherService {
   }
 
   // TODO: Create fetchLocationData method
+  // Fetch data using OpenWeatherMap's API_BASE_URL and API_KEY to store the response.json in data and returning lat and lon
   private async fetchLocationData(query: string) {
     try {
       console.log("Fetching location data from URL:", query);
@@ -103,11 +104,11 @@ class WeatherService {
   // TODO: Build parseCurrentWeather method
   private parseCurrentWeather(response: any): Weather {
     const data = response.list[0];
-    return new Weather(data.name, data.weather[0].main, data.weather[0].description, data.weather[0].icon, data.date, data.windSpeed, data.main.humidity);
+    return new Weather(data.name, data.weather[0].main, data.weather[0].description, data.weather[0].icon, data.date, data.windSpeed, data.main.humidity); // Returns the data as in object
   }
 
   // TODO: Complete buildForecastArray method
-  private buildForecastArray(weatherData: any[]): Weather[] {
+  private buildForecastArray(weatherData: any[]): Weather[] { // Creates the object and then pushing it into an array
     const forecastArray: Weather[] = [];
     const uniqueDays = new Set<string>();
     let todayAdded = false;
