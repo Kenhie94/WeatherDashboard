@@ -116,7 +116,9 @@ class WeatherService {
       const dateText = data.dt_txt;
       const date = new Date(dateText).toDateString();
 
-      if (data.dt_txt.includes("12:00:00") || (!todayAdded && new Date(date).toDateString() === new Date().toDateString())) {
+      const utcDateString = date.toString().split(" ").slice(0, 4).join(" ");
+
+      if (data.dt_txt.includes("12:00:00") || (!todayAdded && new Date().toUTCString().split(" ").slice(0, 4).join(" ") === utcDateString)) {
         if (uniqueDays.size < 6 && !uniqueDays.has(date)) {
           const forecastEntry: Weather = {
             city: this.cityName,
@@ -128,7 +130,7 @@ class WeatherService {
             humidity: data.main.humidity,
           };
 
-          if (new Date(date).toDateString() === new Date().toDateString()) {
+          if (new Date().toUTCString().split(" ").slice(0, 4).join(" ") === utcDateString) {
             todayAdded = true;
           }
 
